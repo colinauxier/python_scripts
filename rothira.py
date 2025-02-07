@@ -27,29 +27,39 @@ adjustments = int(input("Please enter any deductions such as Pre-Tax 401k contri
 # adjust gi
 agi = (gi - adjustments)
 
-# Calculate Maximum Contributions
+# Calculate Maximum Contributions with Reductions and Print Results
 
 if married == "no":
     max_agi = 146000
-    if (agi - max_agi > 15000):
+    if (agi - max_agi < 0):
         print("You qualify for the Maximum Contrbution: ", max_contr)
-    else:
-        reduc_contr = round(((agi - max_agi)/15000), 3)
+    elif (agi - max_agi < 15000):
+        reduc_contr = round(((agi - max_agi)/15000), 4)
         if reduc_contr >= 1:
             reduc_contr = 1
-        reduc_contr = max_contr-(reduc_contr * max_contr)
-        print("Your Maximum Contribtion with Reductions is: ", int(reduc_contr))
+        reduc_contr = round(max_contr-(reduc_contr * max_contr), -1)
+        if (reduc_contr > 200):
+            print("Your Maximum Contribution with Reductions is: ", int(reduc_contr))
+        else:
+            print("Your Maximum Contribution with Reductions is: 200")
+    else:
+        print("Your Maximum Contribution with Reductions is: 0")
 else:
     if jointly == "yes":
         max_agi = 230000
-        if (agi - max_agi > 10000):
-            print("You qualify for the Maximum Contrbution: ", int(reduc_contr))
-        else:
-            reduc_contr = round(((agi - max_agi)/10000), 3)
+        if (agi - max_agi < 0):
+            print("You qualify for the Maximum Contrbution: ", int(max_contr))
+        elif (agi - max_agi < 10000):
+            reduc_contr = round(((agi - max_agi)/10000), 4)
             if reduc_contr >= 1:
                 reduc_contr = 1
-            reduc_contr = max_contr-(reduc_contr * max_contr)
-            print("Your Maximum Individual Contribution with Reductions is: ", int(reduc_contr))
+            reduc_contr = round(max_contr-(reduc_contr * max_contr), -1)
+            if (reduc_contr > 200):
+                print("Your Maximum Contribution with Reductions is: ", int(reduc_contr))
+            else:
+                print("Your Maximum Contribution with Reductions is: 200")
+        else:
+            print("Your Maximum Individual Contribution with Reductions is: 0")
     else:
         print("In 2024 Married Individuals Filing Sperately cannot contribute to a Roth IRA.")    
 
